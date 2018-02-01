@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+
+    <!--
+        Configuration的status属性，用于指定log4j自身的日志级别
+    -->
+
+    <Properties>
+        <Property name="demo">demo_value</Property>
+        <Property name="layout">%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Property>
+        <Property name="error_log_file_name">logs/error_%d.log</Property>
+    </Properties>
+
+    <Appenders>
+
+        <!--<File name="ErrorLogAppender" append="true" fileName="${error_log_file_name}">-->
+        <!--<PatternLayout pattern="${layout}"/>-->
+        <!--<Filters>-->
+        <!--<ThresholdFilter level="ERROR"/>-->
+        <!--</Filters>-->
+        <!--</File>-->
+
+        <!--<Http name="Http" url="http://localhost:8081/log4j">-->
+        <!--<JsonLayout properties="true"/>-->
+        <!--</Http>-->
+
+        <!--
+            一个基于org.apache.logging.log4j.core.appender的日志打印器。
+            name，是该日志打印器的名称标识，日志记录器通过该名称引用该日志打印器打印日志
+            target，设置以何种方式输出到控制台。有两种：SYSTEM_OUT 和 SYSTEM_ERR。默认前者
+
+        -->
+        <Console name="Console" target="SYSTEM_OUT">
+
+            <!--
+                %d{HH:mm:ss.SSS} 格式化当前日志输出时间
+                %t               输出日志所在线程
+                %level           日志级别
+                %logger          日志记录器名称
+                %msg / %m        日志内容
+                %n               换行符
+            -->
+            <PatternLayout pattern="${layout}"/>
+
+            <Filters>
+                <ThresholdFilter level="ALL"/>
+            </Filters>
+        </Console>
+
+        <!--<File name="debug-log-file" fileName="">-->
+
+        <!--</File>-->
+
+    </Appenders>
+
+    <!--
+        日志记录器
+    -->
+    <Loggers>
+
+        <!--
+            根日志记录器
+        -->
+        <Root level="ERROR">
+            <AppenderRef ref="Console"/>
+            <!--<AppenderRef ref="ErrorLogAppender"/>-->
+        </Root>
+
+        <!--
+            设定一个包下的日志记录器
+            name，用于指定该日志记录器所用于的包范围
+        -->
+        <Logger name="com.king.demo" level="DEBUG" additivity="false">
+            <!--
+                该日志记录器引用的日志打印器
+            -->
+            <AppenderRef ref="Console"/>
+            <!--<AppenderRef ref="ErrorLogAppender"/>-->
+            <!--<AppenderRef ref="Http"/>-->
+        </Logger>
+
+        <!--
+            设定一个类的日志记录器
+            name，用于指定该日志记录器所用于的类
+        -->
+        <!--<Logger name="com.king.demo.model.Person" level="DEBUG">-->
+        <!--<AppenderRef ref="Console"/>-->
+        <!--</Logger>-->
+
+    </Loggers>
+
+</Configuration>
